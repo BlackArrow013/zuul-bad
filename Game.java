@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room salida, salaDeVisitas, salaDeEstar, celdas, aseos, cocina,salaDeGuardias;
+        Room salida, salaDeVisitas, salaDeEstar, celdas, aseos, cocina,salaDeGuardias, despensa;
 
         // create the rooms
         salida = new Room("en la salida");
@@ -44,14 +44,16 @@ public class Game
         aseos = new Room("en los aseos");
         cocina = new Room("en la cocina");
         salaDeGuardias = new Room("en la sala de guardias");
+        despensa = new Room("en la despensa");
         // initialise room exits
-        salida.setExits(null, null, salaDeVisitas,null, null);
-        salaDeVisitas.setExits(salida, salaDeEstar, null, null, null);
-        salaDeEstar.setExits(null, cocina, celdas, salaDeVisitas, null);
-        celdas.setExits(salaDeEstar, aseos, null, null, null);
-        aseos.setExits(null, null, null, celdas, null);
-        cocina.setExits(null, null, null, salaDeEstar, salaDeGuardias);
-        salaDeGuardias.setExits(null, null, null, null, null);
+        salida.setExits(null, null, salaDeVisitas,null, null, null);
+        salaDeVisitas.setExits(salida, salaDeEstar, null, null, null, null);
+        salaDeEstar.setExits(null, cocina, celdas, salaDeVisitas, null, null);
+        celdas.setExits(salaDeEstar, aseos, null, null, null, null);
+        aseos.setExits(null, null, null, celdas, null, null);
+        cocina.setExits(null, null, null, salaDeEstar, salaDeGuardias, despensa);
+        salaDeGuardias.setExits(null, null, null, null, null, null);
+        despensa.setExits(null, null, null, null, cocina, null);
         currentRoom = celdas;  // start game outside
     }
 
