@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room salida, salaDeVisitas, salaDeEstar, celdas, aseos, cocina;
+        Room salida, salaDeVisitas, salaDeEstar, celdas, aseos, cocina,salaDeGuardias;
 
         // create the rooms
         salida = new Room("en la salida");
@@ -43,13 +43,15 @@ public class Game
         celdas = new Room("en las celdas");
         aseos = new Room("en los aseos");
         cocina = new Room("en la cocina");
+        salaDeGuardias = new Room("en la sala de guardias");
         // initialise room exits
-        salida.setExits(null, null, salaDeVisitas,null);
-        salaDeVisitas.setExits(salida, salaDeEstar, null, null);
-        salaDeEstar.setExits(null, cocina, celdas, salaDeVisitas);
-        celdas.setExits(salaDeEstar, aseos, null, null);
-        aseos.setExits(null, null, null, celdas);
-        cocina.setExits(null, null, null, salaDeEstar);
+        salida.setExits(null, null, salaDeVisitas,null, null);
+        salaDeVisitas.setExits(salida, salaDeEstar, null, null, null);
+        salaDeEstar.setExits(null, cocina, celdas, salaDeVisitas, null);
+        celdas.setExits(salaDeEstar, aseos, null, null, null);
+        aseos.setExits(null, null, null, celdas, null);
+        cocina.setExits(null, null, null, salaDeEstar, salaDeGuardias);
+        salaDeGuardias.setExits(null, null, null, null, null);
         currentRoom = celdas;  // start game outside
     }
 
@@ -161,6 +163,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        if(direction.equals("southeast")) {
+            nextRoom = currentRoom.southEastExit;
+        }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -207,6 +212,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("southEast ");
         }
     }
 }
