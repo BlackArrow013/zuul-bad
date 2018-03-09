@@ -14,13 +14,12 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public Room southEastExit;
-
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room southEastExit;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -54,6 +53,27 @@ public class Room
             southEastExit = southEast;
     }
 
+    public Room getExit(String direccion)
+    {
+        Room salida = null;
+        if (direccion.equals("north")) {
+            salida = northExit;
+        }
+        if (direccion.equals("east")) {
+            salida = eastExit;
+        }
+        if (direccion.equals("south")) {
+            salida = southExit;
+        }
+        if (direccion.equals("west")) {
+            salida = westExit;
+        }
+        if (direccion.equals("southeast")) {
+            salida = southEastExit;
+        }
+        return salida;
+    }
+
     /**
      * @return The description of the room.
      */
@@ -62,4 +82,30 @@ public class Room
         return description;
     }
 
+    /**
+     * Return a description of the room's exits.
+     * For example: "Exits: north east west"
+     *
+     * @ return A description of the available exits.
+     */
+    public String getExitString()
+    {
+        String salidaDisponible = "";
+        if(northExit != null) {
+            salidaDisponible += "north ";
+        }
+        if(eastExit != null) {
+            salidaDisponible += "east ";
+        }
+        if(southExit != null) {
+            salidaDisponible += "south ";
+        }
+        if(westExit != null) {
+            salidaDisponible += "west ";
+        }
+        if(southEastExit != null) {
+            salidaDisponible += "southEast ";
+        }
+        return salidaDisponible;
+    }
 }
