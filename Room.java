@@ -110,10 +110,10 @@ public class Room
             salidaDisponible += "west ";
         }
         if(southEastExit != null) {
-            salidaDisponible += "southEast ";
+            salidaDisponible += "southeast ";
         }
         if(northWestExit != null) {
-            salidaDisponible += "northWest ";
+            salidaDisponible += "northwest ";
         }
         return salidaDisponible;
     }

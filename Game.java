@@ -145,7 +145,7 @@ public class Game
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
+            System.out.println("¿Ir a dónde?");
             return;
         }
 
