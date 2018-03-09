@@ -98,8 +98,6 @@ public class Game
         System.out.println("Muévete entre las distintas habitaciones hasta encontrar la salida.");        
         System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
-        System.out.println("Estás en " + currentRoom.getDescription());
-        System.out.print("Salidas: ");
         printLocationInfo();
         System.out.println();
     }
@@ -170,8 +168,6 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
             printLocationInfo();
             System.out.println();
         }
@@ -199,6 +195,7 @@ public class Game
      */
     private void printLocationInfo()
     {
-        System.out.print(currentRoom.getExitString());
+        System.out.println(currentRoom.getLongDescription());
+
     }
 }
