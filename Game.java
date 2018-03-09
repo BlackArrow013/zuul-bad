@@ -46,14 +46,25 @@ public class Game
         salaDeGuardias = new Room("en la sala de guardias");
         despensa = new Room("en la despensa");
         // initialise room exits
-        salida.setExits(null, null, salaDeVisitas,null, null, null);
-        salaDeVisitas.setExits(salida, salaDeEstar, null, null, null, null);
-        salaDeEstar.setExits(null, cocina, celdas, salaDeVisitas, null, null);
-        celdas.setExits(salaDeEstar, aseos, null, null, null, null);
-        aseos.setExits(null, null, null, celdas, null, null);
-        cocina.setExits(null, null, null, salaDeEstar, salaDeGuardias, despensa);
-        salaDeGuardias.setExits(null, null, null, null, null, null);
-        despensa.setExits(null, null, null, null, cocina, null);
+        salida.setExit("south", salaDeVisitas);
+        
+        salaDeVisitas.setExit("north", salida);
+        salaDeVisitas.setExit("east", salaDeEstar);
+        
+        salaDeEstar.setExit("west", salaDeVisitas);
+        salaDeEstar.setExit("east", cocina);
+        salaDeEstar.setExit("south", celdas);
+        
+        celdas.setExit("north", salaDeEstar);
+        celdas.setExit("east", aseos);
+        
+        aseos.setExit("west", celdas);
+        
+        cocina.setExit("west", salaDeEstar);
+        cocina.setExit("northwest", despensa);
+        cocina.setExit("southeast", salaDeGuardias);
+
+        despensa.setExit("southeast", cocina);
         currentRoom = celdas;  // start game outside
     }
 
