@@ -47,19 +47,19 @@ public class Game
         despensa = new Room("en la despensa");
         // initialise room exits
         salida.setExit("south", salaDeVisitas);
-        
+
         salaDeVisitas.setExit("north", salida);
         salaDeVisitas.setExit("east", salaDeEstar);
-        
+
         salaDeEstar.setExit("west", salaDeVisitas);
         salaDeEstar.setExit("east", cocina);
         salaDeEstar.setExit("south", celdas);
-        
+
         celdas.setExit("north", salaDeEstar);
         celdas.setExit("east", aseos);
-        
+
         aseos.setExit("west", celdas);
-        
+
         cocina.setExit("west", salaDeEstar);
         cocina.setExit("northwest", despensa);
         cocina.setExit("southeast", salaDeGuardias);
@@ -123,6 +123,9 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if (commandWord.equals("look")) {
+            look();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -162,7 +165,7 @@ public class Game
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
-        
+
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
@@ -197,5 +200,10 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
 
+    }
+
+    private void look() 
+    {
+        System.out.println(currentRoom.getLongDescription());
     }
 }
