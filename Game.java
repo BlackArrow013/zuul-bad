@@ -19,6 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room lastRoom;
 
     /**
      * Create the game and initialise its internal map.
@@ -84,6 +85,7 @@ public class Game
 
         despensa.setExit("southeast", cocina);
         currentRoom = celdas;  // start game outside
+        lastRoom = celdas;
     }
 
     /**
@@ -150,6 +152,9 @@ public class Game
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
+        else if (commandWord.equals("back")) {
+            backRoom(command);
+        }
 
         return wantToQuit;
     }
@@ -191,6 +196,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            lastRoom = currentRoom;
             currentRoom = nextRoom;
             printLocationInfo();
             System.out.println();
@@ -225,5 +231,22 @@ public class Game
     private void look() 
     {
         System.out.println(currentRoom.getLongDescription());
+    }
+    
+    private void backRoom(Command command)
+    {
+        if (command.hasSecondWord()) {
+            System.out.println("What are you telling to me?");
+        }
+        else {
+            if (currentRoom == lastRoom) {
+                System.out.println("No puedes volver. Por favor, muévete.");
+            }
+            else {
+                currentRoom = lastRoom;
+                printLocationInfo();
+                System.out.println();
+            }
+        }
     }
 }
