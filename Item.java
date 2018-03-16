@@ -36,4 +36,22 @@ public class Item
     {
         return descripcion;
     }
+    
+    /**
+     * Permite modificar la descripción de un item.
+     * @param descripcion - La nueva descripción del item.
+     */
+    public void setDescripcion(String descripcion)
+    {
+        this.descripcion = descripcion;
+    }
+    
+    /**
+     * Permite modificar el peso de un item.
+     * @param peso - El nuevo peso del item.
+     */
+    public void setPeso(int peso)
+    {
+        this.peso = peso;
+    }
 }

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -17,18 +18,18 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> salidas;
-    private Item item;
+    private ArrayList<Item> items;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description, Item item) 
+    public Room(String description) 
     {
         this.description = description;
         salidas = new HashMap<String, Room>();
-        this.item = item;
+        items = new ArrayList<>();
     }
 
     /**
@@ -68,6 +69,34 @@ public class Room
         }
         return salidaDisponible.trim();
     }
+    
+    /**
+     * Permite añadir objetos para el juego.
+     */
+    public void addItem(String descripcion, int peso)
+    {
+        Item item = new Item(descripcion, peso);
+        items.add(item);
+    }
+    
+    /**
+     * Devuelve la descripción de los objetos de la sala.
+     * @return 
+     */
+    public String getItemDescription()
+    {
+        String objetoDisponible = "";
+        for (Item item : items) {
+            objetoDisponible += item.getDescripcion() + ", ";
+        }
+        if (objetoDisponible.length() > 1) {
+            objetoDisponible = objetoDisponible.substring(0, objetoDisponible.length() - 2);
+        }
+        else {
+            objetoDisponible = "No hay objetos en esta habitación.";
+        }
+        return objetoDisponible;
+    }
 
     /**
      * Return a long description of this room, of the form:
@@ -77,6 +106,6 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "Estás en " + description + ".\nSalidas: " + getExitString() +".\nObjetos: " + item.getDescripcion();
+        return "Estás en " + description + ".\nSalidas: " + getExitString() + ".\nObjetos: " + getItemDescription();
     }
 }
