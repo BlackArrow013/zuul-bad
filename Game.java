@@ -37,14 +37,14 @@ public class Game
         Room salida, salaDeVisitas, salaDeEstar, celdas, aseos, cocina,salaDeGuardias, despensa;
 
         // create the rooms
-        salida = new Room("en la salida");
-        salaDeVisitas = new Room("en la sala de visitas");
-        salaDeEstar = new Room("en la sala de estar");
-        celdas = new Room("en las celdas");
-        aseos = new Room("en los aseos");
-        cocina = new Room("en la cocina");
-        salaDeGuardias = new Room("en la sala de guardias");
-        despensa = new Room("en la despensa");
+        salida = new Room("en la salida", new Item(null, 0));
+        salaDeVisitas = new Room("en la sala de visitas", new Item(null, 0));
+        salaDeEstar = new Room("en la sala de estar", new Item("Sopa de letras", 200));
+        celdas = new Room("en las celdas", new Item("Almohada", 150));
+        aseos = new Room("en los aseos", new Item("Pastilla de jabón", 100));
+        cocina = new Room("en la cocina", new Item("Cuchillo", 150));
+        salaDeGuardias = new Room("en la sala de guardias", new Item(null, 0));
+        despensa = new Room("en la despensa", new Item("Cabeza de cochinillo", 1500));
         // initialise room exits
         salida.setExit("south", salaDeVisitas);
 
