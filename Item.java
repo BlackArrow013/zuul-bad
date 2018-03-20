@@ -54,4 +54,9 @@ public class Item
     {
         this.peso = peso;
     }
+    
+    public String getInformationItem()
+    {         
+        return "Objeto: " + descripcion + ". \nEste objeto tiene un peso de " + peso + " gramos.";
+    }
 }

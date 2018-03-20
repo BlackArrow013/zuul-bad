@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -21,6 +22,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack<Room> lastRooms;
+    private ArrayList<Item> items;
+    private int cargaActual;
+    private static final int cargaMaxima = 500;    
 
     /**
      * Create the game and initialise its internal map.
@@ -30,6 +34,8 @@ public class Game
         createRooms();
         parser = new Parser();
         lastRooms = new Stack<>();
+        items = new ArrayList<>();
+        cargaActual = 0;
     }
 
     /**
@@ -41,31 +47,31 @@ public class Game
 
         // create the rooms 
         salida = new Room("en la salida");
-        
+
         salaDeVisitas = new Room("en la sala de visitas");
-        
+
         salaDeEstar = new Room("en la sala de estar");
-        salaDeEstar.addItem("Sopa de letras", 200);
-        salaDeEstar.addItem("Revista HOLA", 200);
-        
+        salaDeEstar.addItem("Sudoku", 200);
+        salaDeEstar.addItem("Revista", 200);
+
         celdas = new Room("en las celdas");
         celdas.addItem("Almohada", 150);
-        
+
         aseos = new Room("en los aseos");
-        aseos.addItem("Pastilla de jabón", 100);
+        aseos.addItem("Jabón", 100);
         aseos.addItem("Escobilla", 150);
-        
+
         cocina = new Room("en la cocina");
         cocina.addItem("Cuchillo", 150);
         cocina.addItem("Cuchara", 150);
         cocina.addItem("Sartén", 235);
         cocina.addItem("Tenedor", 150);
         cocina.addItem("Tazas", 200);
-        
+
         salaDeGuardias = new Room("en la sala de guardias");
-        
+
         despensa = new Room("en la despensa");
-        despensa.addItem("Cabeza de cochinillo", 1500);
+        despensa.addItem("Pollo", 1500);
         // initialise room exits
         salida.setExit("south", salaDeVisitas);
 
@@ -156,6 +162,15 @@ public class Game
         else if (commandWord.equals("back")) {
             backRoom(command);
         }
+        else if (commandWord.equals("take")) {
+            take(command);
+        }
+        else if (commandWord.equals("drop")) {
+            drop(command);
+        }
+        else if (commandWord.equals("items")) {
+            items();
+        }
 
         return wantToQuit;
     }
@@ -233,7 +248,7 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     private void backRoom(Command command)
     {
         if (command.hasSecondWord()) {
@@ -249,6 +264,64 @@ public class Game
                 System.out.println();
                 lastRooms.pop();
             }
+        }
+    }
+
+    private void take(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Coger qué?");
+        }
+        else {        
+            String item = command.getSecondWord();
+            Item itemToTake = currentRoom.itemToTake(item);
+            if (itemToTake == null) {
+                System.out.println("Ese objeto no existe en esta habitación.");
+            }
+            else {
+                if (cargaActual + itemToTake.getPeso() > cargaMaxima) {
+                    System.out.println("No puedes moverte cogiendo tanto peso.");
+                    items.add(itemToTake);
+                    drop(command);
+                }
+                else {
+                    items.add(itemToTake);
+                    cargaActual += itemToTake.getPeso();
+                    System.out.println("Has recogido el objeto " + itemToTake.getDescripcion() + " con un peso de " + itemToTake.getPeso() + " gramos");
+                    System.out.println();
+                }
+            }
+        }
+    }
+
+    private void drop(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Soltar qué?");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item itemToDrop = null;
+            for (Item itemASoltar : items) {
+                if (itemASoltar.getDescripcion().equals(item)) {
+                    itemToDrop = itemASoltar;                    
+                }
+            }
+            items.remove(itemToDrop);
+            if (itemToDrop == null) {
+                System.out.println("¡Si no tienes ese objeto!");
+            }
+            else {
+                currentRoom.itemToDrop(itemToDrop);
+                cargaActual -= itemToDrop.getPeso();
+            }
+        }
+    }
+
+    private void items()
+    {
+        for (Item itemActual : items) {
+            System.out.println(itemActual.getInformationItem());
         }
     }
 }

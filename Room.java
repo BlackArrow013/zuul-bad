@@ -108,4 +108,22 @@ public class Room
     {
         return "Estás en " + description + ".\nSalidas: " + getExitString() + ".\nObjetos: " + getItemDescription();
     }
+    
+    public Item itemToTake(String item)
+    {
+        Item itemRecogido = null;
+        Item itemABorrar = null;
+        for (Item itemActual : items) {
+            if (itemActual.getDescripcion().equals(item)) {
+                itemRecogido = itemActual;
+            }
+        }
+        items.remove(itemRecogido);
+        return itemRecogido;
+    }
+    
+    public void itemToDrop(Item item)
+    {
+        items.add(item);        
+    }
 }
