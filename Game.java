@@ -283,6 +283,7 @@ public class Game
                     System.out.println("No puedes moverte cogiendo tanto peso.");
                     items.add(itemToTake);
                     drop(command);
+                    cargaActual += itemToTake.getPeso();
                 }
                 else {
                     items.add(itemToTake);
@@ -324,4 +325,5 @@ public class Game
             System.out.println(itemActual.getInformationItem());
         }
     }
+
 }
