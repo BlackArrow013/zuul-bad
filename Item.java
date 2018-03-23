@@ -9,7 +9,6 @@ public class Item
 {
     private String descripcion;
     private int peso;
-
     /**
      * Constructor de la clase Item
      */
