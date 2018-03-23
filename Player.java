@@ -11,6 +11,7 @@ public class Player
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack<Room> lastRooms;
+    private ArrayList<Item> mochila;
     /**
      * Constructor de Player. Crea un jugador.
      */
@@ -18,6 +19,7 @@ public class Player
     {
         // Inicialización de las variables.
         lastRooms = new Stack<>();
+        mochila = new ArrayList<>();
         currentRoom = room;
     }
 
@@ -79,4 +81,23 @@ public class Player
             }
         }
     }
+
+    public void take(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Coger qué?");        
+        }
+        else {        
+            String item = command.getSecondWord();
+            Item itemToTake = currentRoom.itemToTake(item);
+            if (itemToTake == null) {
+                System.out.println("Ese objeto no existe en esta habitación.");
+            }
+            else {
+                mochila.add(itemToTake);
+                System.out.println("Has recogido " + itemToTake.getDescripcion());
+            }            
+        }
+    }
 }
+

@@ -73,9 +73,9 @@ public class Room
     /**
      * Permite añadir objetos para el juego.
      */
-    public void addItem(String descripcion, int peso)
+    public void addItem(String id, String descripcion, int peso)
     {
-        Item item = new Item(descripcion, peso);
+        Item item = new Item(id, descripcion, peso);
         items.add(item);
     }
     
@@ -87,7 +87,7 @@ public class Room
     {
         String objetoDisponible = "";
         for (Item item : items) {
-            objetoDisponible += item.getDescripcion() + ", ";
+            objetoDisponible += item.getId() + ", ";
         }
         if (objetoDisponible.length() > 1) {
             objetoDisponible = objetoDisponible.substring(0, objetoDisponible.length() - 2);
@@ -107,5 +107,18 @@ public class Room
     public String getLongDescription()
     {
         return "Estás en " + description + ".\nSalidas: " + getExitString() + ".\nObjetos: " + getItemDescription();
+    }
+    
+    public Item itemToTake(String item)
+    {
+        Item itemRecogido = null;
+        Item itemABorrar = null;
+        for (Item itemActual : items) {
+            if (itemActual.getId().equals(item)) {
+                itemRecogido = itemActual;
+            }
+        }
+        items.remove(itemRecogido);
+        return itemRecogido;
     }
 }

@@ -7,15 +7,26 @@
  */
 public class Item
 {
+    private String id;
     private String descripcion;
     private int peso;
     /**
      * Constructor de la clase Item
      */
-    public Item(String descripcion, int peso)
+    public Item(String id, String descripcion, int peso)
     {
+        this.id = id;
         this.descripcion = descripcion;
         this.peso = peso;
+    }
+    
+    /**
+     * Devuelve el item en cuestión.
+     * @return id - El item.
+     */
+    public String getId()
+    {
+        return id;
     }
 
     /**
@@ -34,6 +45,15 @@ public class Item
     public String getDescripcion()
     {
         return descripcion;
+    }
+    
+    /**
+     * Permite modificar el item.
+     * @param id - El nuevo item.
+     */
+    public void setId(String id)
+    {
+        this.id = id;
     }
     
     /**
