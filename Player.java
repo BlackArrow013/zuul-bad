@@ -12,6 +12,8 @@ public class Player
     private Room currentRoom;
     private Stack<Room> lastRooms;
     private ArrayList<Item> mochila;
+    private int cargaActual;
+    private static final int CARGA_MAXIMA = 500;
     /**
      * Constructor de Player. Crea un jugador.
      */
@@ -21,6 +23,7 @@ public class Player
         lastRooms = new Stack<>();
         mochila = new ArrayList<>();
         currentRoom = room;
+        cargaActual = 0;
     }
 
     /** 
@@ -99,8 +102,18 @@ public class Player
             }
             else {
                 if (itemToTake.getCogerObjeto()) {
-                    mochila.add(itemToTake);
-                    System.out.println("Has recogido " + itemToTake.getDescripcion());
+                    if (cargaActual + itemToTake.getPeso() > CARGA_MAXIMA) {
+                        System.out.println("No puedes moverte cogiendo tanto peso.");
+                        mochila.add(itemToTake);
+                        drop(command);
+                        cargaActual += itemToTake.getPeso();
+                    }
+                    else {
+                        mochila.add(itemToTake);
+                        cargaActual += itemToTake.getPeso();
+                        System.out.println("Has recogido " + itemToTake.getDescripcion() + " con un peso de " + itemToTake.getPeso() + " gramos");
+                        System.out.println();
+                    }
                 }
                 else {
                     System.out.println("Este objeto no se puede recoger.");
@@ -108,7 +121,7 @@ public class Player
             }            
         }
     }
-    
+
     /**
      * Permite al jugador soltar objetos de su mochila en la sala que se encuentre.
      * @param command - El comando a ejecutar, que se identificará con el objeto.
@@ -132,11 +145,11 @@ public class Player
             }
             else {
                 currentRoom.itemToDrop(itemToDrop);
+                cargaActual -= itemToDrop.getPeso();
                 System.out.println("Has soltado " + itemToDrop.getDescripcion() + ", con un peso de " + itemToDrop.getPeso());
             }
         }
     }
-
 
     /**
      * Este método muestre por pantalla la información de los items que hay en la mochila del jugador. Si no tiene items en la mochila 
