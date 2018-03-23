@@ -7,15 +7,29 @@
  */
 public class Item
 {
+    private String id;
     private String descripcion;
     private int peso;
+    // True si pueden cogerse objetos, false si no se puede.
+    private boolean cogerObjeto;
     /**
      * Constructor de la clase Item
      */
-    public Item(String descripcion, int peso)
+    public Item(String id, String descripcion, int peso, boolean cogerObjeto)
     {
+        this.id = id;
         this.descripcion = descripcion;
         this.peso = peso;
+        this.cogerObjeto = cogerObjeto;
+    }
+    
+    /**
+     * Devuelve el item en cuestión.
+     * @return id - El item.
+     */
+    public String getId()
+    {
+        return id;
     }
 
     /**
@@ -37,6 +51,24 @@ public class Item
     }
     
     /**
+     * Devuelve si el objeto se puede coger o no.
+     * @return cogerObjeto - true si se puede coger, false si no se puede coger.
+     */
+    public boolean getCogerObjeto()
+    {
+        return cogerObjeto;
+    }
+    
+    /**
+     * Permite modificar el item.
+     * @param id - El nuevo item.
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+    
+    /**
      * Permite modificar la descripción de un item.
      * @param descripcion - La nueva descripción del item.
      */
@@ -52,5 +84,10 @@ public class Item
     public void setPeso(int peso)
     {
         this.peso = peso;
+    }
+    
+    public String getInformationItem()
+    {         
+        return "Objeto: " + id + ". \nDescripción: El objeto es " + descripcion + "\nEste objeto tiene un peso de " + peso + " gramos.";
     }
 }

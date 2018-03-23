@@ -11,6 +11,9 @@ public class Player
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack<Room> lastRooms;
+    private ArrayList<Item> mochila;
+    private int cargaActual;
+    private static final int CARGA_MAXIMA = 500;
     /**
      * Constructor de Player. Crea un jugador.
      */
@@ -18,7 +21,9 @@ public class Player
     {
         // Inicialización de las variables.
         lastRooms = new Stack<>();
+        mochila = new ArrayList<>();
         currentRoom = room;
+        cargaActual = 0;
     }
 
     /** 
@@ -79,4 +84,87 @@ public class Player
             }
         }
     }
+
+    /**
+     * Este método permite al jugador recoger objetos de la sala en la que se encuentre.
+     * @param command - El objeto a ejecutar que se identifica con el objeto.
+     */
+    public void take(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Coger qué?");        
+        }
+        else {        
+            String item = command.getSecondWord();
+            Item itemToTake = currentRoom.itemToTake(item);
+            if (itemToTake == null) {
+                System.out.println("Ese objeto no existe en esta habitación.");
+            }
+            else {
+                if (itemToTake.getCogerObjeto()) {
+                    if (cargaActual + itemToTake.getPeso() > CARGA_MAXIMA) {
+                        System.out.println("No puedes moverte cogiendo tanto peso.");
+                        mochila.add(itemToTake);
+                        drop(command);
+                        cargaActual += itemToTake.getPeso();
+                    }
+                    else {
+                        mochila.add(itemToTake);
+                        cargaActual += itemToTake.getPeso();
+                        System.out.println("Has recogido " + itemToTake.getDescripcion() + " con un peso de " + itemToTake.getPeso() + " gramos");
+                        System.out.println();
+                    }
+                }
+                else {
+                    System.out.println("Este objeto no se puede recoger.");
+                }
+            }            
+        }
+    }
+
+    /**
+     * Permite al jugador soltar objetos de su mochila en la sala que se encuentre.
+     * @param command - El comando a ejecutar, que se identificará con el objeto.
+     */
+    public void drop(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Soltar qué?");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item itemToDrop = null;
+            for (Item itemASoltar : mochila) {
+                if (itemASoltar.getId().equals(item)) {
+                    itemToDrop = itemASoltar;                    
+                }
+            }
+            mochila.remove(itemToDrop);
+            if (itemToDrop == null) {
+                System.out.println("¡Si no tienes ese objeto!");
+            }
+            else {
+                currentRoom.itemToDrop(itemToDrop);
+                cargaActual -= itemToDrop.getPeso();
+                System.out.println("Has soltado " + itemToDrop.getDescripcion() + ", con un peso de " + itemToDrop.getPeso());
+            }
+        }
+    }
+
+    /**
+     * Este método muestre por pantalla la información de los items que hay en la mochila del jugador. Si no tiene items en la mochila 
+     * también informa de ello.
+     */
+    public void items()
+    {
+        if (!mochila.isEmpty()) {
+            for (Item itemActual : mochila) {
+                System.out.println(itemActual.getInformationItem());
+            }
+        }
+        else {
+            System.out.println("Tienes la mochila vacía.");
+        }
+    }
 }
+
