@@ -109,6 +109,11 @@ public class Room
         return "Estás en " + description + ".\nSalidas: " + getExitString() + ".\nObjetos: " + getItemDescription();
     }
     
+    /**
+     * Método que devuelve el item de la sala a coger por el jugador. Tiene un parámetro.
+     * @param item - Parámetro de tipo String que se identifica como el item a coger.
+     * @return itemRecogido - el item que el jugador recogerá.
+     */
     public Item itemToTake(String item)
     {
         Item itemRecogido = null;
@@ -120,5 +125,14 @@ public class Room
         }
         items.remove(itemRecogido);
         return itemRecogido;
+    }
+    
+    /**
+     * Método que permite añadir a la habitación actual un objeto soltado por el jugador. Tiene un parámetro de tipo Item.
+     * @param item - suelta el objeto introducido en el parámetro.
+     */
+    public void itemToDrop(Item item)
+    {
+        items.add(item);        
     }
 }

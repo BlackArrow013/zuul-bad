@@ -84,6 +84,7 @@ public class Player
 
     /**
      * Este método permite al jugador recoger objetos de la sala en la que se encuentre.
+     * @param command - El objeto a ejecutar que se identifica con el objeto.
      */
     public void take(Command command)
     {
@@ -107,6 +108,35 @@ public class Player
             }            
         }
     }
+    
+    /**
+     * Permite al jugador soltar objetos de su mochila en la sala que se encuentre.
+     * @param command - El comando a ejecutar, que se identificará con el objeto.
+     */
+    public void drop(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Soltar qué?");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item itemToDrop = null;
+            for (Item itemASoltar : mochila) {
+                if (itemASoltar.getId().equals(item)) {
+                    itemToDrop = itemASoltar;                    
+                }
+            }
+            mochila.remove(itemToDrop);
+            if (itemToDrop == null) {
+                System.out.println("¡Si no tienes ese objeto!");
+            }
+            else {
+                currentRoom.itemToDrop(itemToDrop);
+                System.out.println("Has soltado " + itemToDrop.getDescripcion() + ", con un peso de " + itemToDrop.getPeso());
+            }
+        }
+    }
+
 
     /**
      * Este método muestre por pantalla la información de los items que hay en la mochila del jugador. Si no tiene items en la mochila 
