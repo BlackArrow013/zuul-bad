@@ -44,27 +44,27 @@ public class Game
         salaDeVisitas = new Room("en la sala de visitas");
         
         salaDeEstar = new Room("en la sala de estar");
-        salaDeEstar.addItem("Pasatiempo", "una entretenida sopa de letras", 200);
-        salaDeEstar.addItem("Revista", "la revista HOLA para el cotilleo", 200);
+        salaDeEstar.addItem("Pasatiempo", "una entretenida sopa de letras", 200, false);
+        salaDeEstar.addItem("Revista", "la revista HOLA para el cotilleo", 200, false);
         
         celdas = new Room("en las celdas");
-        celdas.addItem("Almohada", "una almohada aterciopelada digna de un buen preso", 150);
+        celdas.addItem("Almohada", "una almohada aterciopelada digna de un buen preso", 150, true);
         
         aseos = new Room("en los aseos");
-        aseos.addItem("Jabón", "una pastilla de jabón", 100);
-        aseos.addItem("Escobilla", "una escobilla del retrete para limpiar lo que la cisterna no puede", 150);
+        aseos.addItem("Jabón", "una pastilla de jabón", 100, true);
+        aseos.addItem("Escobilla", "una escobilla del retrete para limpiar lo que la cisterna no puede", 150, false);
         
         cocina = new Room("en la cocina");
-        cocina.addItem("Cuchillo", "un cuchillo para cortar cualquier tipo de sustancia blandita", 150);
-        cocina.addItem("Cuchara", "una cuchara para comer la sopa de una manera fina y elegante", 150);
-        cocina.addItem("Sartén", "una sartén para freir unos buenos huevos fritos", 235);
-        cocina.addItem("Tenedor", "un tenedor para pinchar la comida (o algunos ojos)", 150);
-        cocina.addItem("Tazas", "una taza para beber el té", 200);
+        cocina.addItem("Cuchillo", "un cuchillo para cortar cualquier tipo de sustancia blandita", 150, true);
+        cocina.addItem("Cuchara", "una cuchara para comer la sopa de una manera fina y elegante", 150, true);
+        cocina.addItem("Sartén", "una sartén para freir unos buenos huevos fritos", 235, true);
+        cocina.addItem("Tenedor", "un tenedor para pinchar la comida (o algunos ojos)", 150, true);
+        cocina.addItem("Tazas", "una taza para beber el té", 200, false);
         
         salaDeGuardias = new Room("en la sala de guardias");
         
         despensa = new Room("en la despensa");
-        despensa.addItem("Cerdo","una enorme cabeza de cochinillo, exquisita", 1500);
+        despensa.addItem("Cerdo","una enorme cabeza de cochinillo, exquisita", 1500, false);
         // initialise room exits
         salida.setExit("south", salaDeVisitas);
 
@@ -104,7 +104,7 @@ public class Game
             finished = processCommand(command);
 
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Gracias por jugar. Adiós.");
     }
 
     /**
@@ -158,6 +158,9 @@ public class Game
         else if (commandWord.equals("take")) {
             player.take(command);
         }
+        else if (commandWord.equals("items")) {
+            player.items();
+        }
         return wantToQuit;
     }
     
@@ -169,13 +172,11 @@ public class Game
      */
     private void printHelp() 
     {        
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("Estás en la cárcel. Te han encerrado injustamente y no estás dispuesto a pudrirte allí dentro.");
         System.out.println();
-        System.out.println("Your command words are:");
+        System.out.println("Tus comandos son:");
         System.out.println(parser.showCommands());
-    }
-    
+    }    
     
     /** 
      * "Quit" was entered. Check the rest of the command to see

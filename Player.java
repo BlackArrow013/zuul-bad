@@ -82,6 +82,9 @@ public class Player
         }
     }
 
+    /**
+     * Este método permite al jugador recoger objetos de la sala en la que se encuentre.
+     */
     public void take(Command command)
     {
         if (!command.hasSecondWord()) {
@@ -94,9 +97,30 @@ public class Player
                 System.out.println("Ese objeto no existe en esta habitación.");
             }
             else {
-                mochila.add(itemToTake);
-                System.out.println("Has recogido " + itemToTake.getDescripcion());
+                if (itemToTake.getCogerObjeto()) {
+                    mochila.add(itemToTake);
+                    System.out.println("Has recogido " + itemToTake.getDescripcion());
+                }
+                else {
+                    System.out.println("Este objeto no se puede recoger.");
+                }
             }            
+        }
+    }
+
+    /**
+     * Este método muestre por pantalla la información de los items que hay en la mochila del jugador. Si no tiene items en la mochila 
+     * también informa de ello.
+     */
+    public void items()
+    {
+        if (!mochila.isEmpty()) {
+            for (Item itemActual : mochila) {
+                System.out.println(itemActual.getInformationItem());
+            }
+        }
+        else {
+            System.out.println("Tienes la mochila vacía.");
         }
     }
 }

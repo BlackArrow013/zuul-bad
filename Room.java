@@ -73,9 +73,9 @@ public class Room
     /**
      * Permite añadir objetos para el juego.
      */
-    public void addItem(String id, String descripcion, int peso)
+    public void addItem(String id, String descripcion, int peso, boolean cogerObjeto)
     {
-        Item item = new Item(id, descripcion, peso);
+        Item item = new Item(id, descripcion, peso, cogerObjeto);
         items.add(item);
     }
     
