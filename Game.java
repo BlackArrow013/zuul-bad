@@ -19,23 +19,22 @@ import java.util.Stack;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-    private Stack<Room> lastRooms;
+    private Player player;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
+        player = new Player(createRooms());
         createRooms();
         parser = new Parser();
-        lastRooms = new Stack<>();
     }
 
     /**
      * Create all the rooms and link their exits together.
      */
-    private void createRooms()
+    private Room createRooms()
     {
         Room salida, salaDeVisitas, salaDeEstar, celdas, aseos, cocina,salaDeGuardias, despensa;
 
@@ -86,7 +85,7 @@ public class Game
         cocina.setExit("southeast", salaDeGuardias);
 
         despensa.setExit("southeast", cocina);
-        currentRoom = celdas;  // start game outside
+        return celdas;  // start game outside
     }
 
     /**
@@ -119,11 +118,11 @@ public class Game
         System.out.println("Muévete entre las distintas habitaciones hasta encontrar la salida.");        
         System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
-        printLocationInfo();
+        player.look();
         System.out.println();
     }
-
-    /**
+    
+        /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
@@ -133,7 +132,7 @@ public class Game
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println("No sé qué quieres decir...");
             return false;
         }
 
@@ -142,10 +141,10 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            player.goRoom(command);
         }
         else if (commandWord.equals("look")) {
-            look();
+            player.look();
         }
         else if (commandWord.equals("eat")) {
             System.out.println("You have eaten now and you are not hungry any more");
@@ -154,14 +153,12 @@ public class Game
             wantToQuit = quit(command);
         }
         else if (commandWord.equals("back")) {
-            backRoom(command);
+            player.backRoom(command);
         }
-
         return wantToQuit;
     }
-
-    // implementations of user commands:
-
+    
+    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
@@ -175,35 +172,8 @@ public class Game
         System.out.println("Your command words are:");
         System.out.println(parser.showCommands());
     }
-
-    /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("¿Ir a dónde?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            lastRooms.push(currentRoom);
-            currentRoom = nextRoom;
-            printLocationInfo();
-            System.out.println();
-        }
-    }
-
+    
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
@@ -217,38 +187,6 @@ public class Game
         }
         else {
             return true;  // signal that we want to quit
-        }
-    }
-
-    /**
-     * Método privado que sirve para reutilizar código en otros métodos. En 
-     * este caso da información sobre la localización.
-     */
-    private void printLocationInfo()
-    {
-        System.out.println(currentRoom.getLongDescription());
-    }
-
-    private void look() 
-    {
-        System.out.println(currentRoom.getLongDescription());
-    }
-    
-    private void backRoom(Command command)
-    {
-        if (command.hasSecondWord()) {
-            System.out.println("What are you telling to me? Write one word!");
-        }
-        else {
-            if (lastRooms.isEmpty()) {
-                System.out.println("No puedes retroceder. No te has movido. ¡Muévete!");
-            }
-            else {
-                currentRoom = lastRooms.peek();
-                printLocationInfo();
-                System.out.println();
-                lastRooms.pop();
-            }
         }
     }
 }
