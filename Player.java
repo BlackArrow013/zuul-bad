@@ -175,16 +175,17 @@ public class Player
     {
         boolean terminado = false;
         Item objetoEspecial = null;
-        for (Item itemActual : mochila) {
-            if (itemActual.getId().equals("Llaves")) {
-                objetoEspecial = itemActual;
-            }
-        }
+
         if (!command.hasSecondWord()) {
             System.out.println("¿Usar el qué?");
         }
         else {
             if (currentRoom.getDescription().contains("salida")) {
+                for (Item itemActual : mochila) {
+                    if (itemActual.getId().equals("Llaves")) {
+                        objetoEspecial = itemActual;
+                    }
+                }
                 if (objetoEspecial == null) {
                     System.out.println("No tienes las llaves.");
                 }
