@@ -166,7 +166,7 @@ public class Player
             System.out.println("Tienes la mochila vacía.");
         }
     }
-    
+
     /**
      * Este método permite usar distintos objetos que tengas en tu poder. Actualmente solo funciona con un solo objeto, pero podrían 
      * implementarse distintas funcionalidades para otros objetos en el futuro.
@@ -174,18 +174,29 @@ public class Player
     public boolean use(Command command)
     {
         boolean terminado = false;
+        Item objetoEspecial = null;
+        for (Item itemActual : mochila) {
+            if (itemActual.getId().equals("Llaves")) {
+                objetoEspecial = itemActual;
+            }
+        }
         if (!command.hasSecondWord()) {
             System.out.println("¿Usar el qué?");
         }
         else {
             if (currentRoom.getDescription().contains("salida")) {
-                if (command.getSecondWord().equals("Llaves")) {
-                    System.out.println("¡Fantástico! ¡Has conseguido salir de la cárcel!");
-                    System.out.println("Ahora por fin se hará justicia.");
-                    terminado = true;
+                if (objetoEspecial == null) {
+                    System.out.println("No tienes las llaves.");
                 }
                 else {
-                    System.out.println("¡¡Ese objeto no sirve para eso!!");
+                    if (command.getSecondWord().equals(objetoEspecial.getId())) {
+                        System.out.println("¡Fantástico! ¡Has conseguido salir de la cárcel!");
+                        System.out.println("Ahora por fin se hará justicia.");
+                        terminado = true;
+                    }
+                    else {
+                        System.out.println("¡No estás usando las llaves!");
+                    }
                 }
             }
             else {
