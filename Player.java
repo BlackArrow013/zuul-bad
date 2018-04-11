@@ -179,9 +179,14 @@ public class Player
         }
         else {
             if (currentRoom.getDescription().contains("salida")) {
-                System.out.println("¡Fantástico! ¡Has conseguido salir de la cárcel!");
-                System.out.println("Ahora por fin se hará justicia.");
-                terminado = true;
+                if (command.getSecondWord().equals("Llaves")) {
+                    System.out.println("¡Fantástico! ¡Has conseguido salir de la cárcel!");
+                    System.out.println("Ahora por fin se hará justicia.");
+                    terminado = true;
+                }
+                else {
+                    System.out.println("¡¡Ese objeto no sirve para eso!!");
+                }
             }
             else {
                 System.out.println("Esta habitación no es la salida.");
