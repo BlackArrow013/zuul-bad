@@ -20,7 +20,6 @@ public class Game
 {
     private Parser parser;
     private Player player;
-
     /**
      * Create the game and initialise its internal map.
      */
@@ -65,6 +64,7 @@ public class Game
         
         despensa = new Room("en la despensa");
         despensa.addItem("Cerdo","una enorme cabeza de cochinillo, exquisita", 1500, false);
+        despensa.addItem("Llaves", "unas llaves que te permitirá salir de la cárcel y ganar el juego. ¡Encuentra la salida!", 50, true);
         // initialise room exits
         salida.setExit("south", salaDeVisitas);
 
@@ -163,6 +163,9 @@ public class Game
         }
         else if (commandWord.equals("drop")) {
             player.drop(command);
+        }
+        else if (commandWord.equals("use")) {
+            wantToQuit = player.use(command);
         }
         return wantToQuit;
     }
