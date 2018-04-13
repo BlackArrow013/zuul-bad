@@ -130,42 +130,41 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
-        if(command.isUnknown()) {
-            System.out.println("No sé qué quieres decir...");
-            return false;
-        }
-
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
-            printHelp();
-        }
-        else if (commandWord.equals("go")) {
-            player.goRoom(command);
-        }
-        else if (commandWord.equals("look")) {
-            player.look();
-        }
-        else if (commandWord.equals("eat")) {
-            System.out.println("You have eaten now and you are not hungry any more");
-        }
-        else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
-        }
-        else if (commandWord.equals("back")) {
-            player.backRoom(command);
-        }
-        else if (commandWord.equals("take")) {
-            player.take(command);
-        }
-        else if (commandWord.equals("items")) {
-            player.items();
-        }
-        else if (commandWord.equals("drop")) {
-            player.drop(command);
-        }
-        else if (commandWord.equals("use")) {
-            wantToQuit = player.use(command);
+        CommandWord commandWord = command.getCommandWord();
+        switch (commandWord) {
+            case UNKNOWN:
+                System.out.println("No sé qué quieres decir...");
+                break;
+            case HELP:
+                printHelp();
+                break;
+            case GO:
+                player.goRoom(command);
+                break;
+            case LOOK:
+                player.look();
+                break;
+            case EAT:
+                System.out.println("You have eaten now and you are not hungry any more");
+                break;
+            case QUIT:
+                wantToQuit = quit(command);
+                break;
+            case BACK:
+                player.backRoom(command);
+                break;
+            case TAKE:
+                player.take(command);
+                break;
+            case ITEMS:
+                player.items();
+                break;
+            case DROP:
+                player.drop(command);
+                break;
+            case USE:
+                wantToQuit = player.use(command);
+                break;                
         }
         return wantToQuit;
     }
