@@ -56,10 +56,12 @@ public class Parser
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommand(word1)) {
-            return new Command(word1, word2);
+            word1 = word1.toUpperCase();
+            CommandWord comando1 = CommandWord.valueOf(word1);
+            return new Command(comando1, word2);
         }
         else {
-            return new Command(null, word2); 
+            return new Command(CommandWord.UNKNOWN, word2); 
         }
     }
 
